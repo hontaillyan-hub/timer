@@ -38,21 +38,27 @@
     <div class="timer" id="countdown">-- днів -- годин -- хвилин -- секунд</div>
   </div>
   <script>
-    const countdownEl = document.getElementById('countdown');
-    const targetDate = new Date(new Date().getFullYear(), 9, 30, 0, 0, 0);
+    let targetDate = new Date(new Date().getFullYear(), 9, 30, 0, 0, 0); // 30 жовтня о 00:00
+
     function updateCountdown() {
       const now = new Date();
       let diff = targetDate - now;
+
+      // Якщо дата вже пройшла — переносимо на наступний рік
       if (diff < 0) {
-        targetDate.setFullYear(targetDate.getFullYear() + 1);
+        targetDate = new Date(targetDate.getFullYear() + 1, 9, 30, 0, 0, 0);
         diff = targetDate - now;
       }
+
       const d = Math.floor(diff / (1000 * 60 * 60 * 24));
       const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const m = Math.floor((diff / (1000 * 60)) % 60);
       const s = Math.floor((diff / 1000) % 60);
-      countdownEl.textContent = `${d} днів ${h} год ${m} хв ${s} сек`;
+
+      document.getElementById('countdown').textContent = 
+        `${d} днів ${h} год ${m} хв ${s} сек`;
     }
+
     setInterval(updateCountdown, 1000);
     updateCountdown();
   </script>
